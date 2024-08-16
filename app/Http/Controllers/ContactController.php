@@ -7,15 +7,13 @@ use App\Models\Contact;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index(Request $request)
     {
-        $sortBy = $request->get('sort_by', 'name'); // Default sorting by 'name'
-        $order = $request->get('order', 'asc'); // Default order is ascending
+        $sortBy = $request->get('sort_by', 'name');
+        $order = $request->get('order', 'asc');
 
-        // Search functionality
+
         $search = $request->get('search');
         $contacts = Contact::query()
             ->when($search, function ($query, $search) {
@@ -29,21 +27,17 @@ class ContactController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
-        //
+
         return view('contacts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        //
+
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:contacts',
@@ -54,26 +48,20 @@ class ContactController extends Controller
         return redirect()->route('contacts.index')->with('success', 'Contact created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Contact $contact)
     {
-        //
+
         return view('contacts.show', compact('contact'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(Contact $contact)
     {
         return view('contacts.edit', compact('contact'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Contact $contact)
     {
         $request->validate([
@@ -86,9 +74,7 @@ class ContactController extends Controller
         return redirect()->route('contacts.index')->with('success', 'Contact updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
 
     public function destroy(Contact $contact)
     {
